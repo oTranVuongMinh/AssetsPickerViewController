@@ -90,13 +90,15 @@ open class AssetsPickerConfig {
             return _assetCacheSize
         }
     }
+    
+    open var assetSectionInset: UIEdgeInsets = UIEdgeInsets.init(top: 0, left: 10, bottom: 0, right: 10)
     open var assetPortraitColumnCount: Int = UI_USER_INTERFACE_IDIOM() == .pad ? 5 : 4
     open var assetPortraitInteritemSpace: CGFloat = 1
     open var assetPortraitLineSpace: CGFloat = 1
     
     func assetPortraitCellSize(forViewSize size: CGSize) -> CGSize {
         let count = CGFloat(self.assetPortraitColumnCount)
-        let edge = (size.width - (count - 1) * self.assetPortraitInteritemSpace) / count
+        let edge = ((size.width - assetSectionInset.left - assetSectionInset.right) - (count - 1) * self.assetPortraitInteritemSpace) / count
         return CGSize(width: edge, height: edge)
     }
     
@@ -106,7 +108,7 @@ open class AssetsPickerConfig {
     
     func assetLandscapeCellSize(forViewSize size: CGSize) -> CGSize {
         let count = CGFloat(self.assetLandscapeColumnCount)
-        let edge = (size.width - (count - 1) * self.assetLandscapeInteritemSpace) / count
+        let edge = ((size.width - assetSectionInset.left - assetSectionInset.right) - (count - 1) * self.assetLandscapeInteritemSpace) / count
         return CGSize(width: edge, height: edge)
     }
     
