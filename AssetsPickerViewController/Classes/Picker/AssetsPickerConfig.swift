@@ -108,7 +108,7 @@ open class AssetsPickerConfig {
     
     func assetLandscapeCellSize(forViewSize size: CGSize) -> CGSize {
         let count = CGFloat(self.assetLandscapeColumnCount)
-        let edge = ((size.width - assetSectionInset.left - assetSectionInset.right) - (count - 1) * self.assetLandscapeInteritemSpace) / count
+        let edge = max(1, ((size.width - assetSectionInset.left - assetSectionInset.right) - (count - 1) * self.assetLandscapeInteritemSpace) / count)
         return CGSize(width: edge, height: edge)
     }
     
