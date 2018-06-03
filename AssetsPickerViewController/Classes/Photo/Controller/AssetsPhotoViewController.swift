@@ -213,6 +213,11 @@ open class AssetsPhotoViewController: UIViewController {
         updateLayout(layout: collectionView.collectionViewLayout, isPortrait: isPortrait)
     }
     
+    open override func didRotate(from fromInterfaceOrientation: UIInterfaceOrientation) {
+        super.didRotate(from: fromInterfaceOrientation)
+        updateLayout(layout: collectionView.collectionViewLayout, isPortrait: isPortrait)
+    }
+    
     override open func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         updateNavigationStatus()
@@ -327,7 +332,8 @@ extension AssetsPhotoViewController {
         if let isPortrait = isPortrait {
             self.isPortrait = isPortrait
         }
-        flowLayout.itemSize = self.isPortrait ? pickerConfig.assetPortraitCellSize(forViewSize: UIScreen.main.portraitContentSize) : pickerConfig.assetLandscapeCellSize(forViewSize: UIScreen.main.landscapeContentSize)
+        flowLayout.sectionInset = pickerConfig.assetSectionInset
+        flowLayout.itemSize = self.isPortrait ? pickerConfig.assetPortraitCellSize(forViewSize: self.view.bounds.size) : pickerConfig.assetLandscapeCellSize(forViewSize: self.view.bounds.size)
         flowLayout.minimumLineSpacing = self.isPortrait ? pickerConfig.assetPortraitLineSpace : pickerConfig.assetLandscapeLineSpace
         flowLayout.minimumInteritemSpacing = self.isPortrait ? pickerConfig.assetPortraitInteritemSpace : pickerConfig.assetLandscapeInteritemSpace
     }
@@ -395,6 +401,7 @@ extension AssetsPhotoViewController {
         selectedMap.removeValue(forKey: targetAsset.localIdentifier)
         
         updateSelectionCount()
+        collectionView.deselectItem(at: indexPath, animated: true)
     }
     
     func updateSelectionCount() {
@@ -519,7 +526,7 @@ extension AssetsPhotoViewController: UIScrollViewDelegate {
 
 // MARK: - UICollectionViewDelegate
 extension AssetsPhotoViewController: UICollectionViewDelegate {
-
+    
     public func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
         if let delegate = self.delegate {
             return delegate.assetsPicker?(controller: picker, shouldSelect: AssetsManager.shared.assetArray[indexPath.row], at: indexPath) ?? true

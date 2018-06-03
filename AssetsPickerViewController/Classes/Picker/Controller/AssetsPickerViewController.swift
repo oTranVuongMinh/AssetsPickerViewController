@@ -68,6 +68,12 @@ open class AssetsPickerViewController: UINavigationController {
         viewControllers = [photoViewController]
     }
     
+    public func deSelect(asset: PHAsset) {
+        if let index = AssetsManager.shared.assetArray.index(where: {$0 == asset}) {
+            photoViewController.deselect(asset: asset, at: IndexPath(row: index, section: 0))
+        }
+    }
+    
     deinit {
         AssetsManager.shared.clear()
         logd("Released \(type(of: self))")
