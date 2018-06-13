@@ -262,10 +262,11 @@ extension AssetsPhotoViewController {
         let manager = AssetsManager.shared
         manager.subscribe(subscriber: self)
         manager.fetchAlbums()
+        delegate?.assetsPickerBeginFetchAssets?(controller: self.picker)
         manager.fetchAssets() { [weak self] photos in
             
             guard let `self` = self else { return }
-            
+            self.delegate?.assetsPickerDidFetchAssets?(controller: self.picker)
             self.updateEmptyView(count: photos.count)
             self.title = self.title(forAlbum: manager.selectedAlbum)
             
