@@ -185,6 +185,7 @@ open class AssetsPhotoViewController: UIViewController {
             didSetupConstraints = true
         }
         super.updateViewConstraints()
+        updateLayout(layout: collectionView.collectionViewLayout)
     }
     
     @available(iOS 11.0, *)
